@@ -36,7 +36,7 @@ if(WIN32)
   endif()
 endif()
 if(MSVC)
-  configure_file(${CMAKE_SOURCE_DIR}/win/jpeg.rc.in
+  configure_file(${PROJECT_SOURCE_DIR}/win/jpeg.rc.in
     ${CMAKE_BINARY_DIR}/win/jpeg.rc)
   set(JPEG_SRCS ${JPEG_SRCS} ${CMAKE_BINARY_DIR}/win/jpeg.rc)
 endif()
