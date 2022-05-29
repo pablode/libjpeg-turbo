@@ -196,14 +196,14 @@ endforeach()
 
 if(MSVC_IDE OR XCODE)
   set(SIMD_OBJS ${SIMD_OBJS} PARENT_SCOPE)
-  add_library(simd OBJECT ${CPU_TYPE}/jsimd.c)
-  add_custom_target(simd-objs DEPENDS ${SIMD_OBJS})
-  add_dependencies(simd simd-objs)
+  add_library(tjsimd OBJECT ${CPU_TYPE}/jsimd.c)
+  add_custom_target(tjsimd-objs DEPENDS ${SIMD_OBJS})
+  add_dependencies(tjsimd tjsimd-objs)
 else()
-  add_library(simd OBJECT ${SIMD_SOURCES} ${CPU_TYPE}/jsimd.c)
+  add_library(tjsimd OBJECT ${SIMD_SOURCES} ${CPU_TYPE}/jsimd.c)
 endif()
 if(NOT WIN32 AND (CMAKE_POSITION_INDEPENDENT_CODE OR ENABLE_SHARED))
-  set_target_properties(simd PROPERTIES POSITION_INDEPENDENT_CODE 1)
+  set_target_properties(tjsimd PROPERTIES POSITION_INDEPENDENT_CODE 1)
 endif()
 
 
@@ -392,10 +392,10 @@ if(NOT NEON_INTRINSICS)
   set(SIMD_SOURCES ${SIMD_SOURCES} arm/aarch${BITS}/jsimd_neon.S)
 endif()
 
-add_library(simd OBJECT ${SIMD_SOURCES} arm/aarch${BITS}/jsimd.c)
+add_library(tjsimd OBJECT ${SIMD_SOURCES} arm/aarch${BITS}/jsimd.c)
 
 if(CMAKE_POSITION_INDEPENDENT_CODE OR ENABLE_SHARED)
-  set_target_properties(simd PROPERTIES POSITION_INDEPENDENT_CODE 1)
+  set_target_properties(tjsimd PROPERTIES POSITION_INDEPENDENT_CODE 1)
 endif()
 
 
@@ -434,10 +434,10 @@ if(NOT HAVE_DSPR2)
   return()
 endif()
 
-add_library(simd OBJECT mips/jsimd_dspr2.S mips/jsimd.c)
+add_library(tjsimd OBJECT mips/jsimd_dspr2.S mips/jsimd.c)
 
 if(CMAKE_POSITION_INDEPENDENT_CODE OR ENABLE_SHARED)
-  set_target_properties(simd PROPERTIES POSITION_INDEPENDENT_CODE 1)
+  set_target_properties(tjsimd PROPERTIES POSITION_INDEPENDENT_CODE 1)
 endif()
 
 ###############################################################################
@@ -485,10 +485,10 @@ foreach(file ${SIMD_SOURCES})
     " -Wa,-mloongson-mmi,-mloongson-ext")
 endforeach()
 
-add_library(simd OBJECT ${SIMD_SOURCES} mips64/jsimd.c)
+add_library(tjsimd OBJECT ${SIMD_SOURCES} mips64/jsimd.c)
 
 if(CMAKE_POSITION_INDEPENDENT_CODE OR ENABLE_SHARED)
-  set_target_properties(simd PROPERTIES POSITION_INDEPENDENT_CODE 1)
+  set_target_properties(tjsimd PROPERTIES POSITION_INDEPENDENT_CODE 1)
 endif()
 
 ###############################################################################
@@ -525,10 +525,10 @@ set(SIMD_SOURCES powerpc/jccolor-altivec.c powerpc/jcgray-altivec.c
 set_source_files_properties(${SIMD_SOURCES} PROPERTIES
   COMPILE_FLAGS -maltivec)
 
-add_library(simd OBJECT ${SIMD_SOURCES} powerpc/jsimd.c)
+add_library(tjsimd OBJECT ${SIMD_SOURCES} powerpc/jsimd.c)
 
 if(CMAKE_POSITION_INDEPENDENT_CODE OR ENABLE_SHARED)
-  set_target_properties(simd PROPERTIES POSITION_INDEPENDENT_CODE 1)
+  set_target_properties(tjsimd PROPERTIES POSITION_INDEPENDENT_CODE 1)
 endif()
 
 

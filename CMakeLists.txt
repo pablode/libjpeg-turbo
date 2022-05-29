@@ -572,9 +572,9 @@ if(WITH_SIMD)
     set_source_files_properties(${SIMD_OBJS} PROPERTIES GENERATED 1)
   endif()
 else()
-  add_library(simd OBJECT jsimd_none.c)
+  add_library(tjsimd OBJECT jsimd_none.c)
   if(NOT WIN32 AND (CMAKE_POSITION_INDEPENDENT_CODE OR ENABLE_SHARED))
-    set_target_properties(simd PROPERTIES POSITION_INDEPENDENT_CODE 1)
+    set_target_properties(tjsimd PROPERTIES POSITION_INDEPENDENT_CODE 1)
   endif()
 endif()
 
@@ -587,7 +587,7 @@ if(ENABLE_SHARED)
 endif()
 
 if(ENABLE_STATIC)
-  add_library(jpeg-static STATIC ${JPEG_SOURCES} $<TARGET_OBJECTS:simd>
+  add_library(jpeg-static STATIC ${JPEG_SOURCES} $<TARGET_OBJECTS:tjsimd>
     ${SIMD_OBJS})
   if(NOT MSVC)
     set_target_properties(jpeg-static PROPERTIES OUTPUT_NAME jpeg)
@@ -596,7 +596,7 @@ endif()
 
 if(WITH_TURBOJPEG)
   if(ENABLE_SHARED)
-    set(TURBOJPEG_SOURCES ${JPEG_SOURCES} $<TARGET_OBJECTS:simd> ${SIMD_OBJS}
+    set(TURBOJPEG_SOURCES ${JPEG_SOURCES} $<TARGET_OBJECTS:tjsimd> ${SIMD_OBJS}
       turbojpeg.c transupp.c jdatadst-tj.c jdatasrc-tj.c rdbmp.c rdppm.c
       wrbmp.c wrppm.c)
     set(TJMAPFILE ${CMAKE_CURRENT_SOURCE_DIR}/turbojpeg-mapfile)
@@ -648,7 +648,7 @@ if(WITH_TURBOJPEG)
   endif()
 
   if(ENABLE_STATIC)
-    add_library(turbojpeg-static STATIC ${JPEG_SOURCES} $<TARGET_OBJECTS:simd>
+    add_library(turbojpeg-static STATIC ${JPEG_SOURCES} $<TARGET_OBJECTS:tjsimd>
       ${SIMD_OBJS} turbojpeg.c transupp.c jdatadst-tj.c jdatasrc-tj.c rdbmp.c
       rdppm.c wrbmp.c wrppm.c)
     set_property(TARGET turbojpeg-static PROPERTY COMPILE_FLAGS
