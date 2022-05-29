@@ -1524,4 +1524,4 @@ include(cmakescripts/BuildPackages.cmake)
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmakescripts/cmake_uninstall.cmake.in"
   "cmake_uninstall.cmake" IMMEDIATE @ONLY)
 
-add_custom_target(uninstall COMMAND ${CMAKE_COMMAND} -P cmake_uninstall.cmake)
+add_custom_target(uninstall_${CMAKE_PROJECT_NAME} COMMAND ${CMAKE_COMMAND} -P cmake_uninstall.cmake)
